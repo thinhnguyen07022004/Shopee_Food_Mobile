@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   //string
-  const [name, setName] = useState("hoi dan it");
+  const [name, setName] = useState<string>("hoi dan it");
   //number
-  const [age, setAge] = useState(30)
+  const [age, setAge] = useState<number>(30)
   //null, undefined, boolean
   const test = false;
   //object, array
@@ -16,25 +16,23 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* <View>
+      <View>
         <Text>
           {name}
         </Text>
         <Text>
           {JSON.stringify(person)}
-        </Text> 
+        </Text>
       </View>
-      <Text style={styles.test}>test</Text> */}
-      <View>
-        <View>
-          <Text>
-            test
-          </Text>
-        </View>
+      <Text style={styles.test}>test</Text>
+
+      {/* <View>
+        <Text style={styles.text}>{name}</Text>
       </View>
+
       <Text style={styles.text}>Hello World with
         <Text style={styles.hoidanit}>hoidanit</Text>
-      </Text>
+      </Text> */}
     </View>
   );
 }
@@ -44,16 +42,18 @@ const styles = StyleSheet.create({
   hoidanit: {
     color: "green"
   },
-  text: {
+  test: {
     fontSize: 30,
     color: "red",
   },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // paddingHorizontal: 20,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    paddingHorizontal: 20,
+    fontSize: 60, color: "red",
+    paddingTop: 20,
   },
   // test: {
   //   color: "red",
