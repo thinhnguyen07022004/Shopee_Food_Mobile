@@ -10,35 +10,52 @@ export default function App() {
   const test = false;
   //object, array
   const [person, setPerson] = useState([{
-    name: "thinh",
+    name: "thin",
     age: 22
   }])
 
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View>
         <Text>
           {name}
         </Text>
         <Text>
           {JSON.stringify(person)}
-        </Text>
+        </Text> 
       </View>
-      <Text style={styles.test}>test</Text>
-
+      <Text style={styles.test}>test</Text> */}
+      <View>
+        <View>
+          <Text>
+            test
+          </Text>
+        </View>
+      </View>
+      <Text style={styles.text}>Hello World with
+        <Text style={styles.hoidanit}>hoidanit</Text>
+      </Text>
     </View>
   );
 }
 
+//css-in-jss styled component
 const styles = StyleSheet.create({
+  hoidanit: {
+    color: "green"
+  },
+  text: {
+    fontSize: 30,
+    color: "red",
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // paddingHorizontal: 20,
   },
-  test: {
-    color: "red",
-  }
+  // test: {
+  //   color: "red",
+  // }
 });
