@@ -14,11 +14,13 @@ const styles = StyleSheet.create({
 
 interface IProps {
     addTodo: (V: string) => void;
+
 }
 
 const InputTodo = (props: IProps) => {
 
     const { addTodo } = props
+
 
     const [name, setName] = useState<string>("");
 

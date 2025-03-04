@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text } from "react-native"
+import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native"
 
 const styles = StyleSheet.create({
     todo: {
@@ -11,11 +11,17 @@ const styles = StyleSheet.create({
 
 interface IProps {
     todoList: ITodo[];
+    deleteTodo: (V: number) => void;
 }
 
 const ListTodo = (props: IProps) => {
 
     const { todoList } = props
+    const { deleteTodo } = props
+
+    const handleDeleteTodo = (id: number) => {
+        deleteTodo(id)
+    }
     return (
         <>
             <FlatList style={{ marginTop: 20, borderColor: "red", borderWidth: 1 }}
@@ -24,11 +30,14 @@ const ListTodo = (props: IProps) => {
                 // object destructuring data.item
                 renderItem={({ item }) => {
                     return (
-                        <Text
-                            // key={item.id} 
-                            style={styles.todo}>
-                            {item.title}
-                        </Text>
+                        <TouchableOpacity
+                            onPress={() => handleDeleteTodo(item.id)}>
+                            <Text
+                                // key={item.id} 
+                                style={styles.todo}>
+                                {item.title}
+                            </Text>
+                        </TouchableOpacity>
                     )
                 }}
             />
