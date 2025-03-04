@@ -14,6 +14,19 @@ export default function App() {
     age: 22
   }])
 
+  const [todoList, setTodoList] = useState([
+    { id: 1, title: "Learn React Native" },
+    { id: 2, title: "Learn React.js" },
+    { id: 3, title: "Watching Netflix" },
+    { id: 4, title: "Playing ESport" },
+    { id: 5, title: "Subscribe Hỏi Dân IT :v" },
+    { id: 6, title: "Watching Youtube" },
+    { id: 7, title: "CR 7" },
+    { id: 8, title: "Tony Kroos" },
+    { id: 9, title: "Nine" },
+    { id: 10, title: "M10" },
+  ])
+
   return (
     <View style={styles.container}>
       <View>
@@ -26,15 +39,30 @@ export default function App() {
           // maxLength={2}
           // multiline={true}
           style={{
-            marginTop: 50,
+
             borderColor: "violet",
             borderWidth: 1,
             padding: 10,
           }} />
       </View>
       <Text>{name}</Text>
-      <Button title='add new' />
-      <Text style={styles.test}>test</Text>
+
+      <Button
+        title='add new'
+        onPress={() => alert("tap me")}
+      />
+
+      <View style={{ marginTop: 20, borderColor: "red", borderWidth: 1 }}>
+        {todoList.map(todo => {
+          return (
+            <Text style={styles.todo}>
+              {todo.title}
+            </Text>
+          )
+        })}
+      </View>
+
+      {/* <Text style={styles.test}>test</Text> */}
 
       {/* <View>
         <Text style={styles.text}>{name}</Text>
@@ -49,6 +77,13 @@ export default function App() {
 
 //css-in-jss styled component
 const styles = StyleSheet.create({
+  todo: {
+    fontSize: 30,
+    backgroundColor: "pink",
+    marginBottom: 20,
+    padding: 15,
+  },
+
   hoidanit: {
     color: "green"
   },
@@ -64,6 +99,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontSize: 60, color: "red",
     paddingTop: 20,
+    marginTop: 50,
   },
   // test: {
   //   color: "red",
