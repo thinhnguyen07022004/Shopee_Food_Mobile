@@ -7,8 +7,14 @@ const styles = StyleSheet.create({
         marginTop: 40,
         borderWidth: 1,
         borderColor: "red",
+
         // flexDirection: "row",
-        justifyContent: "center"
+        justifyContent: "center", // ox
+        alignItems: "center"      // oy
+
+        // flexDirection: "column",
+        // justifyContent: "center", // oy
+        // alignItems: "center"      // ox
     },
     item1: {
         padding: 20,
