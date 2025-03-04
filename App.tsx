@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
   //string
@@ -17,13 +17,23 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View>
-        <Text>
-          {name}
-        </Text>
-        <Text>
-          {JSON.stringify(person)}
-        </Text>
+
+        <TextInput
+          onChangeText={v => setName(v)}
+          autoCapitalize='none'
+          autoCorrect={false}
+          // keyboardType='numeric'
+          // maxLength={2}
+          // multiline={true}
+          style={{
+            marginTop: 50,
+            borderColor: "violet",
+            borderWidth: 1,
+            padding: 10,
+          }} />
       </View>
+      <Text>{name}</Text>
+      <Button title='add new' />
       <Text style={styles.test}>test</Text>
 
       {/* <View>
