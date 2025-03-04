@@ -1,20 +1,11 @@
 import { useState } from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import InputTodo from './components/todo/input.todo';
+import ListTodo from './components/todo/list.todo';
 
 export default function App() {
-  //string
-  const [name, setName] = useState<string>("hoi dan it");
-  //number
-  const [age, setAge] = useState<number>(30)
-  //null, undefined, boolean
-  const test = false;
-  //object, array
-  const [person, setPerson] = useState([{
-    name: "thin",
-    age: 22
-  }])
 
-  const [todoList, setTodoList] = useState([
+  const [todoList, setTodoList] = useState<ITodo[]>([
     { id: 1, title: "Learn React Native" },
     { id: 2, title: "Learn React.js" },
     { id: 3, title: "Watching Netflix" },
@@ -29,54 +20,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View>
 
-        <TextInput
-          onChangeText={v => setName(v)}
-          autoCapitalize='none'
-          autoCorrect={false}
-          // keyboardType='numeric'
-          // maxLength={2}
-          // multiline={true}
-          style={{
+      <InputTodo />
 
-            borderColor: "violet",
-            borderWidth: 1,
-            padding: 10,
-          }} />
-      </View>
-      <Text>{name}</Text>
-
-      <Button
-        title='add new'
-        onPress={() => alert("tap me")}
-      />
-
-      <FlatList style={{ marginTop: 20, borderColor: "red", borderWidth: 1 }}
-        data={todoList}
-        keyExtractor={item => item.id + ""}
-        // object destructuring data.item
-        renderItem={({ item }) => {
-          return (
-            <Text
-              // key={item.id} 
-              style={styles.todo}>
-
-              {item.title}
-            </Text>
-          )
-        }}
-      />
-
-      {/* <ScrollView style={{ marginTop: 20, borderColor: "red", borderWidth: 1 }}>
-        {todoList.map(todo => {
-          return (
-            <Text key={todo.id} style={styles.todo}>
-              {todo.title}
-            </Text>
-          )
-        })}
-      </ScrollView> */}
+      <ListTodo
+        todoList={todoList} />
 
     </View>
   );
@@ -84,20 +32,7 @@ export default function App() {
 
 //css-in-jss styled component
 const styles = StyleSheet.create({
-  todo: {
-    fontSize: 30,
-    backgroundColor: "pink",
-    marginBottom: 20,
-    padding: 15,
-  },
 
-  hoidanit: {
-    color: "green"
-  },
-  test: {
-    fontSize: 30,
-    color: "red",
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -108,7 +43,4 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     marginTop: 50,
   },
-  // test: {
-  //   color: "red",
-  // }
 });
