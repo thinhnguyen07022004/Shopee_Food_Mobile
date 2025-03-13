@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from "react-native"
-import ShareButton from "../components/button/share.button"
-import { APP_COLOR } from "../utils/constant"
-import AntDesign from '@expo/vector-icons/AntDesign';
+import ShareButton from "components/button/share.button"
+import { APP_COLOR } from "utils/constant"
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         borderWidth: 5,
         borderColor: "red"
+
     },
     welcomeText: {
         flex: 0.6,
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
     welcomeButton: {
         flex: 0.4,
         borderWidth: 5,
-        borderColor: "grey"
+        borderColor: "grey",
+        gap: 20
     },
     header: {
         fontSize: 40,
@@ -34,18 +36,6 @@ const styles = StyleSheet.create({
     footer: {
 
     },
-    btnContainer: {
-
-    },
-    btnContent: {
-        backgroundColor: "green",
-        borderRadius: 10,
-        padding: 20,
-        alignSelf: "flex-start"
-    },
-    btnText: {
-        textTransform: "uppercase"
-    }
 
 })
 const WelcomePage = () => {
@@ -66,40 +56,57 @@ const WelcomePage = () => {
                 <Text>
                     Đăng nhập với
                 </Text>
-                <View>
+                <View style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 30,
+                }}>
                     <ShareButton
                         title="Facebook"
                         onPress={() => alert("me")}
-                        textType={{ textTransform: "lowercase" }}
-                        PressType={{ alignSelf: "stretch", }}
-                        btnStyle={{
+                        textStyle={{ textTransform: "uppercase" }}
+                        buttonStyle={{
                             justifyContent: "center",
-                            borderRadius: 50
+                            borderRadius: 30,
+                            backgroundColor: "#fff"
                         }}
-                        icons={
-                            <AntDesign
-                                name="pluscircle"
-                                size={30} color="black"
-                            />
+                        icon={
+                            <FontAwesome5 name="facebook" size={24} color="black" />
                         }
                     />
-                    {/* <View style={styles.btnContainer}>
-                        <View style={styles.btnContent}>
-                            <Text style={styles.btnText}>
-                                Facebook
-                            </Text>
-                        </View>
-                    </View> */}
-                    <View><Text>Google</Text></View>
+                    <ShareButton
+                        title="Google"
+                        onPress={() => alert("me")}
+                        textStyle={{ textTransform: "uppercase" }}
+                        buttonStyle={{
+                            justifyContent: "center",
+                            borderRadius: 30,
+                            paddingHorizontal: 20,
+                            backgroundColor: "#fff"
+                        }}
+                        icon={
+                            <FontAwesome5 name="google" size={24} color="black" />
+                        }
+                    />
                 </View>
                 <View>
-                    <Text>
-                        Đăng nhập với email
-                    </Text>
+                    <ShareButton
+                        title="Đăng nhập với email"
+                        onPress={() => alert("me")}
+                        textStyle={{ color: "#fff", paddingVertical: 5 }}
+                        buttonStyle={{
+                            justifyContent: "center",
+                            borderRadius: 30,
+                            marginHorizontal: 50,
+                            paddingHorizontal: 10,
+                            backgroundColor: "#2c2c2c"
+                        }}
+                        pressStyle={{ alignSelf: "stretch" }}
+                    />
                 </View>
                 <View>
-                    <Text>
-                        Chưa có tài khoản?Đăng ký
+                    <Text style={{ textAlign: "center" }}>
+                        Chưa có tài khoản? Đăng ký.
                     </Text>
                 </View>
 
