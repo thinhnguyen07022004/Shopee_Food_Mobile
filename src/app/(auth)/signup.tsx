@@ -2,8 +2,8 @@ import ShareButton from "@/components/button/share.button"
 import SocialButton from "@/components/button/social.button"
 import ShareInput from "@/components/input/share.input"
 import { APP_COLOR } from "@/utils/constant"
-import { Link } from "expo-router"
-import { useEffect, useState } from "react"
+import { Link, router } from "expo-router"
+import { useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import axios from 'axios'
@@ -22,19 +22,19 @@ const SignUpPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const URL_BACKEND = process.env.EXPO_PUBLIC_API_URL;
-
-    useEffect(() => {
-        const fetchAPI = async () => {
-            try {
-                const res = await axios.get(URL_BACKEND!)
-                console.log(">>>>check res:", res)
-            } catch (error) {
-                console.log(">>>>check error:", error)
+    const HandleSignUp = async () => {
+        const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/register`
+        try {
+            const res = await axios.post(url, { email, password, name });
+            if (res.data) {
+                router.navigate("/(auth)/verify")
             }
+            console.log(">>>>>>check res:", res)
+        } catch (error) {
+            console.log(">>>>check error:", error)
         }
-        fetchAPI()
-    }, [])
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.contanier}>
@@ -66,7 +66,7 @@ const SignUpPage = () => {
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
                     title="Đăng Ký"
-                    onPress={() => console.log(name, email, password)}
+                    onPress={HandleSignUp}
                     textStyle={{
                         textTransform: "uppercase",
                         color: "#fff",
