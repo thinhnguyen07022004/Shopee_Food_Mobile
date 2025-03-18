@@ -35,11 +35,6 @@ const TopListHome = () => {
 }
 const styles = StyleSheet.create({
     topList: {
-        borderColor: "orange",
-        borderWidth: 5,
-        minHeight: 100,
-        marginBottom: 6,
-        width: "100%"
     }
 });
 export default TopListHome
