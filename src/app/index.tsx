@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 const WelcomePage = () => {
     if (true) {
         return (
-            <Redirect href={"/(tabs)"} />
+            <Redirect href={"/(auth)/signup"} />
         )
     }
     return (

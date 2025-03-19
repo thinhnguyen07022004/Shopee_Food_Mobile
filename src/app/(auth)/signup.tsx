@@ -4,9 +4,9 @@ import ShareInput from "@/components/input/share.input"
 import { APP_COLOR } from "@/utils/constant"
 import { Link, router } from "expo-router"
 import { useState } from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import axios from 'axios'
+import { registerAPI } from "@/utils/api"
 
 const styles = StyleSheet.create({
     contanier: {
@@ -23,9 +23,9 @@ const SignUpPage = () => {
     const [password, setPassword] = useState<string>("");
 
     const HandleSignUp = async () => {
-        const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/register`
+
         try {
-            const res = await axios.post(url, { email, password, name });
+            const res = await registerAPI(email, password, name)
             if (res.data) {
                 router.navigate("/(auth)/verify")
             }
