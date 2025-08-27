@@ -7,7 +7,7 @@ import falogo from '@/assets/auth/facebook.png'
 import gglogo from '@/assets/auth/google.png'
 import { LinearGradient } from 'expo-linear-gradient';
 import TextBetweenLine from "@/components/button/text.between.line";
-import { Link, Redirect } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
 
 const styles = StyleSheet.create({
     container: {
@@ -107,7 +107,9 @@ const WelcomePage = () => {
                         <View>
                             <ShareButton
                                 title="Đăng nhập với email"
-                                onPress={() => alert("me")}
+                                onPress={() => {
+                                    router.push("/(auth)/login")
+                                }}
                                 textStyle={{ color: "#fff", paddingVertical: 5 }}
                                 buttonStyle={{
                                     justifyContent: "center",

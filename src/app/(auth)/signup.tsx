@@ -105,7 +105,7 @@ const SignUpPage = () => {
                     }}>
                         Đã có tài khoản
                     </Text>
-                    <Link href={"/(auth)/signup"}>
+                    <Link href={"/(auth)/login"}>
                         <Text style={{
                             textAlign: "center",
                             color: "black",
@@ -116,7 +116,7 @@ const SignUpPage = () => {
                     </Link>
                 </View>
 
-                <SocialButton />
+                <SocialButton title="Sign in with" textColor="black" />
             </View>
         </SafeAreaView>
     )

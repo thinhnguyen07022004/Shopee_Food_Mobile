@@ -1,58 +1,82 @@
-import { Image, StyleSheet, View } from "react-native"
-import TextBetweenLine from "./text.between.line"
-import ShareButton from "./share.button"
-import falogo from '@/assets/auth/facebook.png'
-import gglogo from '@/assets/auth/google.png'
+import facebookLogo from "@/assets/auth/facebook.png";
+import googleLogo from "@/assets/auth/google.png";
+import { Image, StyleSheet, Text, View } from "react-native";
+import ShareButton from "./share.button";
 
-const styles = StyleSheet.create({
-    welcomeButton: {
-        flex: 1,
-        gap: 30
-    },
-})
+interface IProps {
+    title: string;
+    textColor?: "white" | "black";
+}
 
-const SocialButton = () => {
+const SocialButton = (props: IProps) => {
+    const { title, textColor = "white" } = props;
     return (
-        <View style={styles.welcomeButton}>
-            <TextBetweenLine
-                TextColor="black"
-                title="Đăng nhập với" />
-            <View style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 30,
-
-            }}>
+        <View style={styles.container}>
+            {/* Title line */}
+            <View
+                style={{
+                    flexDirection: "row",
+                    gap: 15,
+                    justifyContent: "center",
+                }}
+            >
+                <View
+                    style={{
+                        borderBottomColor: "#ccc",
+                        borderBottomWidth: 1,
+                        paddingHorizontal: 35,
+                    }}
+                />
+                <Text style={{ color: textColor, position: "relative", top: 10 }}>
+                    {title}
+                </Text>
+                <View
+                    style={{
+                        borderBottomColor: "#ccc",
+                        borderBottomWidth: 1,
+                        paddingHorizontal: 35,
+                    }}
+                />
+            </View>
+            {/* Button Wrapper */}
+            <View style={styles.socialButtonsWrapper}>
                 <ShareButton
                     title="Facebook"
-                    onPress={() => alert("me")}
+                    onPress={() => alert("@nvminh162 said: This feature is under development")}
                     textStyle={{ textTransform: "uppercase" }}
                     buttonStyle={{
                         justifyContent: "center",
                         borderRadius: 30,
-                        backgroundColor: "#fff"
+                        backgroundColor: "#fff",
                     }}
-                    icon={
-                        <Image source={falogo} />
-                    }
+                    icon={<Image source={facebookLogo} />}
                 />
                 <ShareButton
                     title="Google"
-                    onPress={() => alert("me")}
+                    onPress={() => alert("@nvminh162 said: This feature is under development")}
                     textStyle={{ textTransform: "uppercase" }}
                     buttonStyle={{
                         justifyContent: "center",
                         borderRadius: 30,
+                        backgroundColor: "#fff",
                         paddingHorizontal: 20,
-                        backgroundColor: "#fff"
                     }}
-                    icon={
-                        <Image source={gglogo} />
-                    }
+                    icon={<Image source={googleLogo} />}
                 />
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default SocialButton
+const styles = StyleSheet.create({
+    container: {
+        gap: 30,
+    },
+    socialButtonsWrapper: {
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 30,
+    },
+});
+
+export default SocialButton;
