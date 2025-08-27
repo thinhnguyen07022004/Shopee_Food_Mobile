@@ -1,6 +1,10 @@
+import LoadingOverlay from "@/components/loading/overlay";
+import { verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant"
-import { Text, View, StyleSheet } from "react-native"
+import { useState } from "react";
+import { Text, View, StyleSheet, Keyboard } from "react-native"
 import OTPTextView from 'react-native-otp-textinput'
+import Toast from "react-native-root-toast";
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +18,31 @@ const styles = StyleSheet.create({
     },
 });
 
+
+
 const VerifyPage = () => {
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
+    const handleCellTextChange = async (text: string, i: number) => {
+        Keyboard.dismiss();
+        if (i === 5 && text) {
+            setIsSubmit(true);
+            const res = await verifyCodeAPI("admin1@gmail.com", "123456");
+            if (res.data) {
+                alert("Verify successfully")
+            } else {
+                Toast.show(res.message as string, {
+                    duration: Toast.durations.LONG,
+                    textColor: "white",
+                    backgroundColor: APP_COLOR.ORANGE,
+                    opacity: 1
+                });
+            }
+        }
+        setIsSubmit(false);
+
+    }
+
     return (
         <>
             <View style={styles.container}>
@@ -25,6 +53,7 @@ const VerifyPage = () => {
                 <View style={{ marginVertical: 20 }}>
                     <OTPTextView
                         // ref={otpRef}
+                        handleCellTextChange={handleCellTextChange}
                         autoFocus
                         inputCount={6}
                         inputCellLength={1}
@@ -57,7 +86,7 @@ const VerifyPage = () => {
                     </Text>
                 </View>
             </View>
-            {/* {isSubmit && <LoadingOverlay />} */}
+            {isSubmit && <LoadingOverlay />}
         </>
     )
 }
