@@ -1,7 +1,8 @@
 import LoadingOverlay from "@/components/loading/overlay";
-import { verifyCodeAPI } from "@/utils/api";
+import { resendCodeAPI, verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant"
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import { Text, View, StyleSheet, Keyboard } from "react-native"
 import OTPTextView from 'react-native-otp-textinput'
 import Toast from "react-native-root-toast";
@@ -22,26 +23,57 @@ const styles = StyleSheet.create({
 
 const VerifyPage = () => {
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const otpRef = useRef<OTPTextView>(null);
+    const [code, setCode] = useState<string>('');
 
-    const handleCellTextChange = async (text: string, i: number) => {
+    const { email } = useLocalSearchParams();
+
+    const verifyCode = async () => {
         Keyboard.dismiss();
-        if (i === 5 && text) {
-            setIsSubmit(true);
-            const res = await verifyCodeAPI("admin1@gmail.com", "123456");
-            if (res.data) {
-                alert("Verify successfully")
-            } else {
-                Toast.show(res.message as string, {
-                    duration: Toast.durations.LONG,
-                    textColor: "white",
-                    backgroundColor: APP_COLOR.ORANGE,
-                    opacity: 1
-                });
-            }
-        }
+        // call api verify code
+        setIsSubmit(true);
+        const res = await verifyCodeAPI(email as string, code);
         setIsSubmit(false);
 
+        if (res.data) {
+            // success
+            otpRef.current?.clear();
+            otpRef?.current?.clear();
+            Toast.show("Active success, enjoy your meal", {
+                duration: Toast.durations.LONG,
+                textColor: "white",
+                backgroundColor: APP_COLOR.ORANGE,
+                opacity: 1,
+            });
+            router.replace("/(auth)/login")
+        } else {
+            // fail
+            Toast.show(res.message as string, {
+                duration: Toast.durations.LONG,
+                textColor: "white",
+                backgroundColor: APP_COLOR.ORANGE,
+                opacity: 1
+            });
+        }
     }
+
+    useEffect(() => {
+        if (code && code.length === 6) {
+            verifyCode();
+        }
+    }, [code]);
+
+    const handleResendOTPCode = async () => {
+        otpRef?.current?.clear();
+        const res = await resendCodeAPI(email as string);
+        const m = res.data ? "Resend Success" : res.message;
+        Toast.show(m as string, {
+            duration: Toast.durations.LONG,
+            textColor: "white",
+            backgroundColor: APP_COLOR.ORANGE,
+            opacity: 1,
+        });
+    };
 
     return (
         <>
@@ -52,8 +84,7 @@ const VerifyPage = () => {
                 </Text>
                 <View style={{ marginVertical: 20 }}>
                     <OTPTextView
-                        // ref={otpRef}
-                        handleCellTextChange={handleCellTextChange}
+                        ref={otpRef}
                         autoFocus
                         inputCount={6}
                         inputCellLength={1}
@@ -66,7 +97,7 @@ const VerifyPage = () => {
                             // @ts-ignore:next-line
                             color: APP_COLOR.ORANGE,
                         }}
-                    // handleTextChange={setCode}
+                        handleTextChange={setCode}
                     />
                 </View>
                 <View
@@ -79,7 +110,7 @@ const VerifyPage = () => {
                 >
                     <Text>Can't get OTP,</Text>
                     <Text
-                        // onPress={handleResendOTPCode}
+                        onPress={handleResendOTPCode}
                         style={{ textDecorationLine: "underline", fontWeight: "bold" }}
                     >
                         Resend

@@ -14,3 +14,10 @@ export const verifyCodeAPI = (email: string, code: string) => {
     });
 };
 
+export const resendCodeAPI = (email: string) => {
+    const url = `/api/v1/auth/verify-email`;
+    return axios.post<IBackendRes<IRegister>>(url, {
+        email,
+    });
+};
+
