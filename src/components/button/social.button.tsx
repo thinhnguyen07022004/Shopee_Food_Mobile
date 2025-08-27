@@ -19,6 +19,7 @@ const SocialButton = () => {
                 flexDirection: "row",
                 justifyContent: "center",
                 gap: 30,
+
             }}>
                 <ShareButton
                     title="Facebook"
