@@ -1,6 +1,7 @@
 import ShareButton from "@/components/button/share.button"
 import SocialButton from "@/components/button/social.button"
 import ShareInput from "@/components/input/share.input"
+import { loginAPI } from "@/utils/api"
 import { APP_COLOR } from "@/utils/constant"
 import { Link, router } from "expo-router"
 import { useState } from "react"
@@ -14,6 +15,35 @@ const styles = StyleSheet.create({
 const LogInPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const handleLogin = async () => {
+        try {
+            const res = await loginAPI(email, password)
+            if (res.data) {
+                router.replace("/(tabs)")
+
+            }
+            else {
+                const m = Array.isArray(res.message) ? res.message[0] : res.message
+                Toast.show(m, {
+                    duration: Toast.durations.LONG,
+                    textColor: "white",
+                    backgroundColor: APP_COLOR.ORANGE,
+                    opacity: 1
+                });
+
+                if (res.statusCode === 400) {
+                    router.replace({
+                        pathname: "/(auth)/verify",
+                        params: { email: email, isLogin: 1 }
+                    })
+                }
+            }
+        }
+        catch (error) {
+            console.log(">>>>check error:", error)
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -44,7 +74,7 @@ const LogInPage = () => {
 
             <ShareButton
                 title="Login"
-                onPress={() => alert("me")}
+                onPress={handleLogin}
                 textStyle={{ color: "#fff", fontSize: 19 }}
                 buttonStyle={{
                     justifyContent: "center",
