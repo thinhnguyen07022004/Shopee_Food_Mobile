@@ -2,9 +2,10 @@ import { Text, View } from "react-native";
 
 interface IProps {
     title: string;
+    TextColor?: "white" | "black";
 }
 const TextBetweenLine = (props: IProps) => {
-    const { title } = props;
+    const { title, TextColor = "white" } = props;
     return (
         <View style={{
             flexDirection: "row",
@@ -17,7 +18,7 @@ const TextBetweenLine = (props: IProps) => {
                 paddingHorizontal: 35,
             }}>
             </View>
-            <Text style={{ color: "black", position: "relative", top: 10 }}>{title}</Text>
+            <Text style={{ color: TextColor, position: "relative", top: 10 }}>{title}</Text>
             <View style={{
                 borderBottomColor: "#ccc",
                 borderBottomWidth: 1,
