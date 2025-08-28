@@ -15,9 +15,11 @@ const styles = StyleSheet.create({
 const LogInPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleLogin = async () => {
         try {
+            setLoading(true)
             const res = await loginAPI(email, password)
             if (res.data) {
                 router.replace("/(tabs)")
@@ -42,6 +44,9 @@ const LogInPage = () => {
         }
         catch (error) {
             console.log(">>>>check error:", error)
+        }
+        finally {
+            setLoading(false)
         }
     }
 
@@ -83,7 +88,7 @@ const LogInPage = () => {
                     paddingVertical: 15,
                 }}
                 pressStyle={{ alignSelf: "stretch" }}
-            // isLoading={isLoading}
+                loading={loading}
             />
 
             <View style={{
