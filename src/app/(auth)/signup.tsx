@@ -22,10 +22,12 @@ const SignUpPage = () => {
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     const HandleSignUp = async () => {
 
         try {
+            setLoading(true)
             const res = await registerAPI(email, password, name)
             if (res.data) {
                 router.replace({
@@ -43,6 +45,9 @@ const SignUpPage = () => {
             }
         } catch (error) {
             console.log(">>>>check error:", error)
+        }
+        finally {
+            setLoading(false)
         }
     }
 
@@ -76,6 +81,7 @@ const SignUpPage = () => {
                 />
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
+                    loading={loading}
                     title="Đăng Ký"
                     onPress={HandleSignUp}
                     textStyle={{
