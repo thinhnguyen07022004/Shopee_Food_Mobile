@@ -10,6 +10,7 @@ import Toast from "react-native-root-toast"
 import { Formik } from 'formik';
 import { LoginSchema } from "@/utils/validate.schema"
 import { useCurrentApp } from "@/context/app.context"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const styles = StyleSheet.create({
     container: { flex: 1, marginHorizontal: 20, gap: 10 },
@@ -26,6 +27,7 @@ const LogInPage = () => {
             setLoading(true)
             const res = await loginAPI(email, password)
             if (res.data) {
+                await AsyncStorage.setItem("access_token", res.data.access_token)
                 setAppState(res.data)
                 router.replace({ pathname: "/(tabs)" });
             }

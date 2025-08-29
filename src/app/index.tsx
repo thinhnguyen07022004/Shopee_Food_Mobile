@@ -7,10 +7,11 @@ import falogo from '@/assets/auth/facebook.png'
 import gglogo from '@/assets/auth/google.png'
 import { LinearGradient } from 'expo-linear-gradient';
 import TextBetweenLine from "@/components/button/text.between.line";
-import { Link, router } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Link, Redirect, router } from "expo-router";
 import { useEffect } from "react";
-import { printAsyncStorage } from "@/utils/api";
+import { getAccountAPI, printAsyncStorage } from "@/utils/api";
+import { useCurrentApp } from "@/context/app.context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
     container: {
@@ -46,17 +47,24 @@ const styles = StyleSheet.create({
 
 const WelcomePage = () => {
 
-    useEffect(() => {
-        const test = async () => {
-            await AsyncStorage.setItem("eric", "eric_value")
-            await AsyncStorage.setItem("access_token", "eric_token")
-        }
-        test()
-    }, [])
+    const { setAppState } = useCurrentApp()
 
-    const handleClick = async () => {
-        printAsyncStorage()
-    }
+    useEffect(() => {
+        const fetchAccount = async () => {
+            const res = await getAccountAPI()
+            if (res.data) {
+                //success
+                setAppState({
+                    user: res.data,
+                    access_token: await AsyncStorage.getItem("access_token")
+                })
+                router.replace("/(tabs)")
+            } else {
+                // error
+            }
+        }
+        fetchAccount()
+    })
 
     // if (true) {
     //     return (
@@ -67,7 +75,6 @@ const WelcomePage = () => {
 
     return (
         <>
-            <Button onPress={handleClick} title="Check AsyncStorage" />
             <ImageBackground
                 style={{ flex: 1 }}
                 source={bg}
