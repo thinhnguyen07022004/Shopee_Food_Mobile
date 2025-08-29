@@ -5,10 +5,11 @@ import { loginAPI } from "@/utils/api"
 import { APP_COLOR } from "@/utils/constant"
 import { Link, router } from "expo-router"
 import { useState } from "react"
-import { Button, StyleSheet, Text, TextInput, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import Toast from "react-native-root-toast"
 import { Formik } from 'formik';
 import { LoginSchema } from "@/utils/validate.schema"
+import { useCurrentApp } from "@/context/app.context"
 
 const styles = StyleSheet.create({
     container: { flex: 1, marginHorizontal: 20, gap: 10 },
@@ -18,14 +19,15 @@ const LogInPage = () => {
     // const [email, setEmail] = useState<string>("");
     // const [password, setPassword] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const { setAppState } = useCurrentApp()
 
     const handleLogin = async (email: string, password: string) => {
         try {
             setLoading(true)
             const res = await loginAPI(email, password)
             if (res.data) {
-                router.replace("/(tabs)")
-
+                setAppState(res.data)
+                router.replace({ pathname: "/(tabs)" });
             }
             else {
                 const m = Array.isArray(res.message) ? res.message[0] : res.message
