@@ -1,70 +1,51 @@
-import { Button, Image, ImageBackground, StyleSheet, Text, View } from "react-native"
-import ShareButton from "components/button/share.button"
-import { APP_COLOR } from "utils/constant"
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import bg from '@/assets/auth/welcome-background.png'
-import falogo from '@/assets/auth/facebook.png'
-import gglogo from '@/assets/auth/google.png'
-import { LinearGradient } from 'expo-linear-gradient';
-import TextBetweenLine from "@/components/button/text.between.line";
-import { Link, Redirect, router } from "expo-router";
-import { useEffect } from "react";
-import { getAccountAPI, printAsyncStorage } from "@/utils/api";
+import { Redirect, router } from "expo-router";
+import { useEffect, useState } from "react";
+import { getAccountAPI } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from 'expo-splash-screen';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginHorizontal: 10,
+SplashScreen.preventAutoHideAsync();
 
-    },
-    welcomeText: {
-        flex: 0.6,
-        alignItems: "flex-start",
-        justifyContent: "center",
-        paddingLeft: 20,
-    },
-    welcomeButton: {
-        flex: 0.4,
-        gap: 30
-    },
-    header: {
-        fontSize: 40,
-        fontWeight: "600",
-    },
-    body: {
-        fontSize: 30,
-        color: APP_COLOR.ORANGE,
-        marginVertical: 10,
-    },
-    footer: {
-
-    },
-
-})
-
-
-const WelcomePage = () => {
-
+const RootPage = () => {
     const { setAppState } = useCurrentApp()
+    const [state, setState] = useState<any>();
 
     useEffect(() => {
-        const fetchAccount = async () => {
-            const res = await getAccountAPI()
-            if (res.data) {
-                //success
-                setAppState({
-                    user: res.data,
-                    access_token: await AsyncStorage.getItem("access_token")
-                })
-                router.replace("/(tabs)")
-            } else {
-                // error
+        const prepare = async () => {
+            try {
+                // Check if access token exists first
+                const access_token = await AsyncStorage.getItem("access_token");
+
+                // If no access token, go directly to welcome screen
+                if (!access_token) {
+                    router.replace("/(auth)/welcome");
+                    return;
+                }
+
+                const res = await getAccountAPI();
+                if (res.data) {
+                    setAppState({
+                        user: res.data.user,
+                        access_token: access_token,
+                    });
+                    router.replace("/(tabs)");
+                } else {
+                    router.replace("/(auth)/welcome");
+                }
+            } catch (e) {
+                console.warn(e);
+                setState(() => {
+                    throw new Error("Can't connect to Backend Server!");
+                });
+            } finally {
+                // Tell the application to render
+                SplashScreen.hideAsync();
             }
         }
-        fetchAccount()
-    })
+
+        prepare();
+    }, []);
 
     // if (true) {
     //     return (
@@ -73,112 +54,7 @@ const WelcomePage = () => {
     // }
 
 
-    return (
-        <>
-            <ImageBackground
-                style={{ flex: 1 }}
-                source={bg}
-            >
-                <LinearGradient
-                    style={{ flex: 1 }}
-                    colors={['transparent', '#191B2F']}
-                    locations={[0.2, 0.8]}
-                >
-                    <View style={styles.container}>
-                        <View style={styles.welcomeText}>
-                            <Text style={styles.header}>
-                                Welcome to
-                            </Text>
-                            <Text style={styles.body}>
-                                @HoidanIT - Food
-                            </Text>
-                            <Text style={styles.footer}>
-                                Nền tảng giao đồ ăn trực tuyến hàng đầu Việt Nam
-                            </Text>
-                        </View>
-                        <View style={styles.welcomeButton}>
-                            <TextBetweenLine
-                                TextColor="white"
-                                title="Đăng nhập với" />
-                            <View style={{
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                gap: 30,
-                            }}>
-                                <ShareButton
-                                    title="Facebook"
-                                    onPress={() => alert("me")}
-                                    textStyle={{ textTransform: "uppercase" }}
-                                    buttonStyle={{
-                                        justifyContent: "center",
-                                        borderRadius: 30,
-                                        backgroundColor: "#fff"
-                                    }}
-                                    icon={
-                                        <Image source={falogo} />
-                                    }
-                                />
-                                <ShareButton
-                                    title="Google"
-                                    onPress={() => alert("me")}
-                                    textStyle={{ textTransform: "uppercase" }}
-                                    buttonStyle={{
-                                        justifyContent: "center",
-                                        borderRadius: 30,
-                                        paddingHorizontal: 20,
-                                        backgroundColor: "#fff"
-                                    }}
-                                    icon={
-                                        <Image source={gglogo} />
-                                    }
-                                />
-                            </View>
-                            <View>
-                                <ShareButton
-                                    title="Đăng nhập với email"
-                                    onPress={() => {
-                                        router.push("/(auth)/login")
-                                    }}
-                                    textStyle={{ color: "#fff", paddingVertical: 5 }}
-                                    buttonStyle={{
-                                        justifyContent: "center",
-                                        borderRadius: 30,
-                                        marginHorizontal: 50,
-                                        paddingHorizontal: 10,
-                                        backgroundColor: "#2c2c2c",
-                                        borderColor: "#505050",
-                                        borderWidth: 1
-                                    }}
-                                    pressStyle={{ alignSelf: "stretch" }}
-                                />
-                            </View>
-                            <View style={{
-                                flexDirection: "row",
-                                gap: 10,
-                                justifyContent: "center"
-                            }}>
-                                <Text style={{
-                                    textAlign: "center",
-                                    color: "white"
-                                }}>
-                                    Chưa có tài khoản?
-                                </Text>
-                                <Link href={"/(auth)/signup"}>
-                                    <Text style={{
-                                        textAlign: "center",
-                                        color: "white",
-                                        textDecorationLine: "underline"
-                                    }}>
-                                        Đăng ký.
-                                    </Text>
-                                </Link>
-                            </View>
-                        </View>
-                    </View>
-                </LinearGradient>
-            </ImageBackground>
-        </>
-    )
+    return (<></>)
 }
 
-export default WelcomePage
+export default RootPage

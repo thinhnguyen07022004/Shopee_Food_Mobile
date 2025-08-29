@@ -38,6 +38,10 @@ const RootLayout = () => {
                                     options={{ headerShown: false }} />
 
                                 <Stack.Screen
+                                    name="(auth)/welcome"
+                                    options={{ headerShown: false }} />
+
+                                <Stack.Screen
                                     name="(auth)/verify"
                                     options={{ headerShown: false }} />
 
