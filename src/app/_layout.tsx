@@ -16,50 +16,50 @@ const RootLayout = () => {
     return (
         <GestureHandlerRootView >
             <AppProvider>
-                <SafeAreaView style={{ flex: 1 }}>
-                    <ThemeProvider value={navTheme}>
-                        <RootSiblingParent>
-                            <Stack
-                                screenOptions={{
-                                    headerStyle: {
-                                        backgroundColor: '#f4511e',
-                                    },
-                                    headerTintColor: '#fff',
-                                    headerTitleStyle: {
-                                        fontWeight: 'bold',
-                                    },
-                                }}>
-                                <Stack.Screen
-                                    name="index"
-                                    options={{ headerShown: false }} />
+                {/* <SafeAreaView style={{ flex: 1 }}> */}
+                <ThemeProvider value={navTheme}>
+                    <RootSiblingParent>
+                        <Stack
+                            screenOptions={{
+                                headerStyle: {
+                                    backgroundColor: '#f4511e',
+                                },
+                                headerTintColor: '#fff',
+                                headerTitleStyle: {
+                                    fontWeight: 'bold',
+                                },
+                            }}>
+                            <Stack.Screen
+                                name="index"
+                                options={{ headerShown: false }} />
 
-                                <Stack.Screen
-                                    name="(auth)/signup"
-                                    options={{ headerShown: false }} />
+                            <Stack.Screen
+                                name="(auth)/signup"
+                                options={{ headerShown: false }} />
 
-                                <Stack.Screen
-                                    name="(auth)/welcome"
-                                    options={{ headerShown: false }} />
+                            <Stack.Screen
+                                name="(auth)/welcome"
+                                options={{ headerShown: false }} />
 
-                                <Stack.Screen
-                                    name="(auth)/verify"
-                                    options={{ headerShown: false }} />
+                            <Stack.Screen
+                                name="(auth)/verify"
+                                options={{ headerShown: false }} />
 
-                                <Stack.Screen
-                                    name="(tabs)"
-                                    options={{ headerShown: false }} />
+                            <Stack.Screen
+                                name="(tabs)"
+                                options={{ headerShown: false }} />
 
-                                <Stack.Screen
-                                    name="product/index"
-                                    options={{ headerTitle: "Sản phẩm" }} />
+                            <Stack.Screen
+                                name="product/index"
+                                options={{ headerTitle: "Sản phẩm" }} />
 
-                                <Stack.Screen
-                                    name="(auth)/login"
-                                    options={{ headerShown: false }} />
-                            </Stack>
-                        </RootSiblingParent>
-                    </ThemeProvider>
-                </SafeAreaView>
+                            <Stack.Screen
+                                name="(auth)/login"
+                                options={{ headerShown: false }} />
+                        </Stack>
+                    </RootSiblingParent>
+                </ThemeProvider>
+                {/* </SafeAreaView> */}
             </AppProvider>
         </GestureHandlerRootView >
     )
