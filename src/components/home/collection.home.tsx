@@ -1,9 +1,10 @@
-import { FlatList, Image, Platform, StyleSheet, Text, View } from "react-native"
+import { FlatList, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
 import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useEffect, useState } from "react";
 import { getTopRestaurantAPI } from "@/utils/api";
+import { router } from "expo-router";
 
 
 interface IProps {
@@ -83,26 +84,36 @@ const CollectionHome = (props: IProps) => {
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
-                            <View style={{ backgroundColor: "#efefef" }}>
-                                <Image
-                                    style={{ width: 130, height: 130 }}
-                                    source={{ uri: `${baseImage}/${item.image}` }}
-                                />
-                                <View style={{ padding: 5 }}>
-                                    <Text
-                                        numberOfLines={1}
-                                        ellipsizeMode="tail"
-                                        style={{ fontWeight: "bold", maxWidth: 130 }}
-                                    >
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.sale}>
-                                        <Text style={{ color: APP_COLOR.ORANGE }}>
-                                            Flash Sale
+                            <Pressable
+                                onPress={() =>
+                                    // router.navigate({
+                                    //     pathname: "/product/[id]",
+                                    //     params: { id: item._id },
+                                    // })
+                                    router.navigate('/product')
+                                }
+                            >
+                                <View style={{ backgroundColor: "#efefef" }}>
+                                    <Image
+                                        style={{ width: 130, height: 130 }}
+                                        source={{ uri: `${baseImage}/${item.image}` }}
+                                    />
+                                    <View style={{ padding: 5 }}>
+                                        <Text
+                                            numberOfLines={1}
+                                            ellipsizeMode="tail"
+                                            style={{ fontWeight: "bold", maxWidth: 130 }}
+                                        >
+                                            {item.name}
                                         </Text>
+                                        <View style={styles.sale}>
+                                            <Text style={{ color: APP_COLOR.ORANGE }}>
+                                                Flash Sale
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
+                            </Pressable>
                         )
                     }}
                 />
