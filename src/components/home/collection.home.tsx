@@ -1,12 +1,15 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native"
+import { FlatList, Image, Platform, StyleSheet, Text, View } from "react-native"
 import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useEffect, useState } from "react";
+import { getTopRestaurantAPI } from "@/utils/api";
 
 
 interface IProps {
     name: string;
     description: string;
+    refAPI: string;
 }
 const styles = StyleSheet.create({
     container: {
@@ -23,14 +26,27 @@ const styles = StyleSheet.create({
 })
 
 const CollectionHome = (props: IProps) => {
-    const { name, description } = props
-    const data = [
-        { key: '1', image: demo, name: "cua hang 1" },
-        { key: '2', image: demo, name: "cua hang 2" },
-        { key: '3', image: demo, name: "cua hang 3" },
-        { key: '4', image: demo, name: "cua hang 4" },
-        { key: '5', image: demo, name: "cua hang 5" },
-    ]
+    const { name, description, refAPI } = props
+    const [restaurants, setRestaurants] = useState<ITopRestaurant[] | []>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getTopRestaurantAPI(refAPI)
+            if (res.data) {
+                setRestaurants(res.data)
+            }
+            else {
+                // error
+            }
+        }
+        fetchData()
+    }, [refAPI])
+
+    const backend =
+        Platform.OS === "android"
+            ? process.env.EXPO_PUBLIC_ANDROID_API_URL
+            : process.env.EXPO_PUBLIC_IOS_API_URL;
+    const baseImage = `${backend}/images/restaurant`;
 
     return (
         <>
@@ -60,7 +76,7 @@ const CollectionHome = (props: IProps) => {
                     <Text style={{ color: "#5a5a5a" }}>{description}</Text>
                 </View>
                 <FlatList
-                    data={data}
+                    data={restaurants}
                     horizontal
                     contentContainerStyle={{ gap: 5 }}
                     showsHorizontalScrollIndicator={false}
@@ -70,7 +86,7 @@ const CollectionHome = (props: IProps) => {
                             <View style={{ backgroundColor: "#efefef" }}>
                                 <Image
                                     style={{ width: 130, height: 130 }}
-                                    source={demo}
+                                    source={{ uri: `${baseImage}/${item.image}` }}
                                 />
                                 <View style={{ padding: 5 }}>
                                     <Text

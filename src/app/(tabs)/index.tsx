@@ -34,7 +34,12 @@ const HomeTab = () => {
             <CustomFlatList
                 data={data}
                 style={styles.list}
-                renderItem={({ item }) => <CollectionHome name={item.name} description={item.description} />}
+                renderItem={({ item }) => (
+                    <CollectionHome
+                        name={item.name}
+                        description={item.description}
+                        refAPI={item.refAPI}
+                    />)}
                 HeaderComponent={<HeaderHome />}
                 StickyElementComponent={<SearchHome />}
                 TopListElementComponent={<TopListHome />}
